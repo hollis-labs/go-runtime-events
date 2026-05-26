@@ -1,0 +1,55 @@
+folio_version: "0.1"
+generated_at: 2026-05-25T22:35:21.159647-05:00
+generator: folio/0.1.0
+presets:
+  - id: go-lib
+    version: 0.1.0
+    source: bundled
+    resolved_path: bundled:presets/go-lib
+inputs:
+  copyright_holder: Hollis Labs
+  description: Runtime activity event schema for CLI-wrapped agent subprocesses
+  github_owner: hollis-labs
+  go_version: 1.26.1
+  package_name: runtimeevents
+  repo_name: go-runtime-events
+computed:
+  module_path: github.com/hollis-labs/go-runtime-events
+  year: "2026"
+files:
+  .github/workflows/check.yml:
+    preset: go-lib
+    digest_at_gen: sha256:aac94411d0d8efc16c742a9dd048689ede1c8b84c8d6984a5d80fea09fb295d5
+  .gitignore:
+    preset: go-lib
+    digest_at_gen: sha256:1abae72d1b570e1dca6465bad43ba51f8a19bf92dd09eb9e6692d2b143282b4a
+  CHANGELOG.md:
+    preset: go-lib
+    digest_at_gen: sha256:f10ceb39278f12148146155c7cc662e662d5e1cf39bf8b42d6974e253ccef931
+  LICENSE:
+    preset: go-lib
+    digest_at_gen: sha256:29fde794587339581b8d68aa7753337b321da45cbe49cf5a0be907db7e67e7d8
+  README.md:
+    preset: go-lib
+    digest_at_gen: sha256:110aeab00034849c3c70816b4b9d67d9e8a724a85c10a21694d1b8b267762fe7
+  examples/README.md:
+    preset: go-lib
+    digest_at_gen: sha256:0890ce3da0b0b7d4a5a7cc84a493f5be682eaa3445f30ef3f660e8296587cefe
+  go.mod:
+    preset: go-lib
+    digest_at_gen: sha256:2ff4455fc93bb019e34a17048a0237390d6a1bc7f0825baf63442624692a0b6a
+  runtimeevents/doc.go:
+    preset: go-lib
+    digest_at_gen: sha256:e1e2d4c2e8b228238cc9e12eeafa5b321bf3257994944092054dc8895bc4beb7
+  runtimeevents/runtimeevents.go:
+    preset: go-lib
+    digest_at_gen: sha256:8f747460c6dc1c82229c31d7c92e384d9481cc869b5b1568a6a5d8dfb067bd9d
+  runtimeevents/runtimeevents_test.go:
+    preset: go-lib
+    digest_at_gen: sha256:c15e4038005f0ad766cb751f030ff6eb5a110b82113d72e0924326be95ab40a4
+sync_history:
+  - at: 2026-05-25T22:35:21.159647-05:00
+    operation: init
+    presets:
+      - id: go-lib
+        version: 0.1.0
