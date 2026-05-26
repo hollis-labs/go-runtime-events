@@ -54,9 +54,10 @@ const (
 // Policy action kinds. Emitted whenever the wrapper's policy engine takes
 // a non-observe action against a command, tool call, or output.
 const (
-	KindPolicyNudge   EventKind = "policy.nudge"
-	KindPolicyRewrite EventKind = "policy.rewrite"
-	KindPolicyBlock   EventKind = "policy.block"
+	KindPolicyNudge             EventKind = "policy.nudge"
+	KindPolicyRewrite           EventKind = "policy.rewrite"
+	KindPolicyBlock             EventKind = "policy.block"
+	KindPolicyApprovalRequested EventKind = "policy.approval_requested"
 )
 
 // Planting kinds. Emitted around boot-dir / hook / plugin / MCP-config

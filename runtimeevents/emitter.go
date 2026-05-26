@@ -106,9 +106,18 @@ func WithProcess(p Process) EmitOption { return func(e *Event) { e.Process = p }
 // payload may be nil (no payload), a []byte / json.RawMessage (used
 // verbatim), or any value json.Marshal accepts (marshaled here).
 func (e *Emitter) Emit(ctx context.Context, kind EventKind, source Source, payload any, opts ...EmitOption) error {
+	_, err := e.EmitReturning(ctx, kind, source, payload, opts...)
+	return err
+}
+
+// EmitReturning is like [Emitter.Emit], but returns the assigned event ID
+// after the sink write succeeds. Prefer this when callers need to emit a
+// follow-up event with [WithParentID] correlation but do not need the
+// override power of [WithID].
+func (e *Emitter) EmitReturning(ctx context.Context, kind EventKind, source Source, payload any, opts ...EmitOption) (string, error) {
 	raw, err := marshalPayload(payload)
 	if err != nil {
-		return fmt.Errorf("runtimeevents: marshal payload for kind %q: %w", kind, err)
+		return "", fmt.Errorf("runtimeevents: marshal payload for kind %q: %w", kind, err)
 	}
 
 	ev := Event{
@@ -126,7 +135,10 @@ func (e *Emitter) Emit(ctx context.Context, kind EventKind, source Source, paylo
 	for _, opt := range opts {
 		opt(&ev)
 	}
-	return e.Sink.Write(ctx, ev)
+	if err := e.Sink.Write(ctx, ev); err != nil {
+		return "", err
+	}
+	return ev.ID, nil
 }
 
 func (e *Emitter) now() time.Time {

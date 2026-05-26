@@ -28,12 +28,14 @@ Status as of v0.1.0 (2026-05-26). See
   explicitly avoids prescribing durability, so reference impls should
   only land when there's a real consumer.
 
+### Schema extensions landed
+
+- **`KindPolicyApprovalRequested`** — added so `policy.ModeApproval`
+  no longer overloads `policy.block`. The full pause/resume operator
+  approval flow still belongs in the wrapper/app layer.
+
 ### Schema extensions on the table
 
-- **`KindPolicyApprovalRequested`** — the wrapper currently maps
-  `policy.ModeApproval` to `policy.block` because there's no dedicated
-  kind. Add this kind when the wrapper learns to pause/resume sessions
-  for operator approval.
 - **`session.idle` / `session.processing` / `session.heartbeat` payload
   shapes** — kinds exist, but no concrete payload conventions yet.
   Drop a documented shape (last-activity-time, processing token,
@@ -49,11 +51,10 @@ Status as of v0.1.0 (2026-05-26). See
    types). Wait until at least two consumers diverge before paying that
    tax.
 2. **`WithID` safety.** Lets callers override the auto-generated event
-   ID — necessary for `ParentID` correlation chains, but duplicate IDs
-   break replay. The wrapper uses it correctly. Document the contract
-   harder (Godoc already mentions "Use carefully") or expose a safer
-   `EmitReturning(ctx, ...) (id, err)` shape that returns the assigned
-   ID without exposing the override.
+   ID — necessary for some `ParentID` correlation chains, but duplicate
+   IDs break replay. `Emitter.EmitReturning` now covers the safer common
+   case where callers only need the assigned ID after emission. Keep
+   `WithID` for pre-generated correlation IDs and document sparingly.
 3. **Schema versioning policy.** `SchemaVersion = "1"` — when do we
    bump? Adding kinds, adding source channels, adding optional fields
    are all backwards-additive. Removing or renaming anything breaks

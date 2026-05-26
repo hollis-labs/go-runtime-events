@@ -182,6 +182,44 @@ func TestEmitterWithEmptyIDPreservesGenerated(t *testing.T) {
 	}
 }
 
+func TestEmitterEmitReturningReturnsAssignedID(t *testing.T) {
+	sink := &captureSink{}
+	em := newTestEmitter(sink)
+	id, err := em.EmitReturning(
+		context.Background(),
+		KindAgentToolUse,
+		Source{Channel: ChannelClaudeStreamJSON},
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("EmitReturning: %v", err)
+	}
+	if id == "" {
+		t.Fatal("EmitReturning returned empty id")
+	}
+	if sink.events[0].ID != id {
+		t.Errorf("returned id = %q, event id = %q", id, sink.events[0].ID)
+	}
+}
+
+func TestEmitterEmitReturningHonorsOptions(t *testing.T) {
+	sink := &captureSink{}
+	em := newTestEmitter(sink)
+	id, err := em.EmitReturning(
+		context.Background(),
+		KindAgentToolUse,
+		Source{Channel: ChannelClaudeStreamJSON},
+		nil,
+		WithID("evt_predetermined"),
+	)
+	if err != nil {
+		t.Fatalf("EmitReturning: %v", err)
+	}
+	if id != "evt_predetermined" {
+		t.Errorf("id = %q, want evt_predetermined", id)
+	}
+}
+
 func TestEmitterPropagatesSinkError(t *testing.T) {
 	wantErr := errors.New("sink failed")
 	sink := &captureSink{err: wantErr}
