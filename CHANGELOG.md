@@ -4,6 +4,36 @@ All notable changes to go-runtime-events are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.1.1 — 2026-08-25
+
+Additive release of commit `8756744` ("Add policy approval event helpers").
+No breaking changes; every v0.1.0 API keeps its signature and `SchemaVersion`
+stays `"1"`. 27 tests, all `-race` clean. Tag cut after the fact, so the
+tagged tree does not contain this entry.
+
+### Added
+
+- **`Emitter.EmitReturning(ctx, kind, source, payload, opts...) (string, error)`**
+  — emits and returns the assigned event ID once the sink write succeeds.
+  This is the safe way to build a `WithParentID` correlation chain: callers
+  that only need to know the ID after the fact no longer have to reach for
+  `WithID`'s override power. It returns `""` on both marshal failure and sink
+  failure, and honors every `EmitOption`, so an explicit `WithID` is reflected
+  in the returned value. `Emit` is now a thin wrapper over it and its
+  behavior, including the `runtimeevents: marshal payload for kind %q` error
+  wrapping, is unchanged.
+
+- **`KindPolicyApprovalRequested` (`"policy.approval_requested"`)** — a
+  dedicated kind for policy approval mode, which previously had to be
+  overloaded onto `policy.block`. Backwards-additive: 29 `EventKind`
+  constants at this tag, and consumers already have to round-trip unknown
+  kinds. The pause/resume operator-approval flow itself still belongs to the
+  wrapper/app layer; this is only the event vocabulary for it.
+
+### Notes
+
+- No new module dependencies — `go.mod` still has zero requires.
+
 ## v0.1.0 — 2026-05-26
 
 Initial cut. 24 tests, all `-race` clean.
