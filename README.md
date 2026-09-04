@@ -77,6 +77,13 @@ func (myStore) Write(_ context.Context, ev runtimeevents.Event) error {
 For a worked sink: `runtimeevents.OpenFileSink(path)` returns a
 JSONL-append `Sink` that closes cleanly via `Close()`.
 
+The action-shaped `KindPolicyNudge`, `KindPolicyRewrite`,
+`KindPolicyBlock`, and `KindPolicyApprovalRequested` names and their
+`policy.*` wire values are legacy compatibility labels. They carry
+observed policy findings or recommendations; receiving one does not by
+itself prove that the producer changed, blocked, or paused the underlying
+operation.
+
 ## Envelope shape
 
 | Field | Required | Notes |

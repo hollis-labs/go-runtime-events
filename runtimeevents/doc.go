@@ -15,6 +15,9 @@
 //     informative; sequence is authoritative.
 //   - Use [Event.RawOffset] (when set) for byte-level replay of stdin/stdout/
 //     stderr streams against the durable raw log.
+//   - Treat the KindPolicy* constants as legacy compatibility labels for
+//     observed policy findings or recommendations. A policy event alone is not
+//     evidence that the producer changed, blocked, or paused an operation.
 //
 // The wrapper assigns sequence numbers and IDs; downstream consumers should
 // not regenerate them. See [Sequencer], [Emitter], and [Sink] for the

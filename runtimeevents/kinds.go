@@ -51,8 +51,10 @@ const (
 	KindAgentPermissionResolved  EventKind = "agent.permission_resolved"
 )
 
-// Policy action kinds. Emitted whenever the wrapper's policy engine takes
-// a non-observe action against a command, tool call, or output.
+// Policy observation compatibility kinds. Their action-shaped Go names and
+// wire values are retained for compatibility. They carry observed policy
+// findings or recommendations; by themselves they do not mean a producer
+// nudged, rewrote, blocked, or paused the underlying operation.
 const (
 	KindPolicyNudge             EventKind = "policy.nudge"
 	KindPolicyRewrite           EventKind = "policy.rewrite"

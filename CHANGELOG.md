@@ -4,6 +4,16 @@ All notable changes to go-runtime-events are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Changed
+
+- Corrected the public documentation for the action-shaped `KindPolicy*`
+  constants and `policy.*` wire values. They are legacy compatibility labels
+  carrying observed policy findings or recommendations, not evidence that an
+  engine changed, blocked, or paused an operation. Constant names and wire
+  values are unchanged.
+
 ## v0.1.1 — 2026-08-25
 
 Additive release of commit `8756744` ("Add policy approval event helpers").
@@ -24,11 +34,12 @@ tagged tree does not contain this entry.
   wrapping, is unchanged.
 
 - **`KindPolicyApprovalRequested` (`"policy.approval_requested"`)** — a
-  dedicated kind for policy approval mode, which previously had to be
-  overloaded onto `policy.block`. Backwards-additive: 29 `EventKind`
-  constants at this tag, and consumers already have to round-trip unknown
-  kinds. The pause/resume operator-approval flow itself still belongs to the
-  wrapper/app layer; this is only the event vocabulary for it.
+  dedicated legacy compatibility label for an observed approval
+  recommendation, which previously had to be overloaded onto `policy.block`.
+  Backwards-additive: 29 `EventKind` constants at this tag, and consumers
+  already have to round-trip unknown kinds. The event does not itself pause
+  execution; the pause/resume operator-approval flow still belongs to the
+  wrapper/app layer.
 
 ### Notes
 
@@ -46,14 +57,15 @@ Initial cut. 24 tests, all `-race` clean.
 - **31 `EventKind` constants** covering process lifecycle, session
   lifecycle, turn lifecycle, stdin/stdout/stderr raw + line, agent
   semantic events (delta, tool_use, tool_result, subagent_spawn,
-  permission_*), policy actions (nudge/rewrite/block), planting,
+  permission_*), policy observation compatibility labels
+  (nudge/rewrite/block), planting,
   sandbox, and interrupt request/acknowledged.
 - **`SourceChannel` constants** for claude-stream-json, opencode-plugin,
   jsonrpc, pty, stdio, hook, filter. Open string — adapters may
   introduce new channels without a schema bump.
 - **`Confidence` levels** (exact / derived / inferred) so consumers can
-  trust enforcement decisions from semantic channels and treat text
-  classifier hits as advisory.
+  distinguish direct semantic observations from advisory text-classifier
+  findings.
 - **`Sequencer`** — per-session monotonic counter, concurrent-safe.
   Authoritative ordering source per the architecture doc.
 - **ID generators** — `NewEventID` (`evt_`), `NewSessionID` (`ses_`),

@@ -30,9 +30,11 @@ Status as of v0.1.0 (2026-05-26). See
 
 ### Schema extensions landed
 
-- **`KindPolicyApprovalRequested`** — added so `policy.ModeApproval`
-  no longer overloads `policy.block`. The full pause/resume operator
-  approval flow still belongs in the wrapper/app layer.
+- **`KindPolicyApprovalRequested`** — added as the legacy compatibility
+  label for an observed approval recommendation, so that finding no longer
+  overloads `policy.block`. The event does not itself pause execution; the
+  full pause/resume operator approval flow still belongs in the wrapper/app
+  layer.
 
 ### Schema extensions on the table
 
