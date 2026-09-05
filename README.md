@@ -10,24 +10,25 @@ payload conventions independently. The companion `go-agent-wrapper`
 library produces these events; Nanite, Tether, Torque, Hadron, and Stack
 Explorer consume them.
 
-## Status (v0.1.0, 2026-05-26)
+## Status (v0.1.2, 2026-09-04)
 
 Production-shaped schema with:
 
 - `Event` envelope: `schema_version`, `id`, `kind`, `time`, `app`,
   `session_id`, `turn_id`, `sequence`, `parent_id`, `raw_offset`,
   `process`, `source`, `payload`.
-- 31 `EventKind` constants covering process / session / turn / stdio /
+- 29 `EventKind` constants covering process / session / turn / stdio /
   agent / policy / plant / sandbox / interrupt lifecycle.
 - 7 `SourceChannel` constants + 3 `Confidence` levels.
 - `Sequencer` (per-session monotonic, concurrent-safe), ID generators
-  with stable prefixes (`evt_`, `ses_`, `turn_`), `Emitter` with options
-  (`WithID`, `WithTurnID`, `WithParentID`, `WithRawOffset`,
-  `WithProcess`), and a thread-safe `SetProviderSessionID` mutator.
+  with stable prefixes (`evt_`, `ses_`, `turn_`), `Emitter` with
+  `EmitReturning` and options (`WithID`, `WithTurnID`, `WithParentID`,
+  `WithRawOffset`, `WithProcess`), plus thread-safe `SetProcess` and
+  `SetProviderSessionID` mutators.
 - `Sink` interface plus `SinkFunc`, `MultiSink` (fan-out with joined
   errors), and a reference `FileSink` (append-only JSONL with
   mutex-guarded writes).
-- 24 tests, all `-race` clean.
+- 27 tests, all `-race` clean.
 
 See [ROADMAP.md](./ROADMAP.md) for deferred scope.
 

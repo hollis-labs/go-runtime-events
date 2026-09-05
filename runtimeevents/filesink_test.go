@@ -50,7 +50,11 @@ func TestFileSinkRoundTrip(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open %q: %v", path, err)
 	}
-	defer f.Close()
+	t.Cleanup(func() {
+		if err := f.Close(); err != nil {
+			t.Errorf("close event log: %v", err)
+		}
+	})
 
 	var got []Event
 	scanner := bufio.NewScanner(f)
@@ -179,7 +183,11 @@ func TestFileSinkConcurrentWritesDontInterleave(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open: %v", err)
 	}
-	defer f.Close()
+	t.Cleanup(func() {
+		if err := f.Close(); err != nil {
+			t.Errorf("close event log: %v", err)
+		}
+	})
 	scanner := bufio.NewScanner(f)
 	scanner.Buffer(make([]byte, 0, 1<<16), 1<<20)
 	count := 0

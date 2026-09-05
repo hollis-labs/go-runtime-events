@@ -1,18 +1,22 @@
 # go-runtime-events Roadmap
 
-Status as of v0.1.0 (2026-05-26). See
+Status as of v0.1.2 (2026-09-04). See
 [CHANGELOG.md](./CHANGELOG.md) for what landed.
 
 ## Publish blockers
 
-- None internal to this module — `go-runtime-events` has no Hollis Labs
+- None. `go-runtime-events` has no Hollis Labs
   dependencies. It's the leaf of the dependency tree and should be the
-  first tagged of the three new libs (`go-runtime-events` →
+  first released when coordinating the three shared libs (`go-runtime-events` →
   `go-harness-filters` → `go-agent-wrapper`).
-- Standard pre-tag polish: `examples/` is empty, drop a runnable
-  example before publishing.
 
 ## Deferred this pass
+
+### Runnable examples
+
+- The README contains a minimal producer example, but `examples/` does not
+  yet contain a standalone program. Add one when a consumer needs a worked
+  integration; it is not a release blocker for this schema-only module.
 
 ### Reference sinks
 

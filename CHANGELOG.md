@@ -6,6 +6,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+No changes yet.
+
+## v0.1.2 — 2026-09-04
+
+Documentation and test-hygiene patch release. Public Go declarations, wire
+values, `SchemaVersion`, and runtime behavior are unchanged from v0.1.1. 27
+tests, all `-race` clean.
+
 ### Changed
 
 - Corrected the public documentation for the action-shaped `KindPolicy*`
@@ -13,6 +21,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   carrying observed policy findings or recommendations, not evidence that an
   engine changed, blocked, or paused an operation. Constant names and wire
   values are unchanged.
+
+### Notes
+
+- No new module dependencies — `go.mod` still has zero requires.
+- Test file-reader cleanup now checks close errors so the repository's pinned
+  CI lint gate is clean; library code and behavior are unaffected.
 
 ## v0.1.1 — 2026-08-25
 
@@ -54,7 +68,7 @@ Initial cut. 24 tests, all `-race` clean.
 - **`Event` envelope** with all required fields locked in from day one:
   schema_version, id, kind, time, app, session_id, turn_id, sequence,
   parent_id, raw_offset, process, source, payload.
-- **31 `EventKind` constants** covering process lifecycle, session
+- **28 `EventKind` constants** covering process lifecycle, session
   lifecycle, turn lifecycle, stdin/stdout/stderr raw + line, agent
   semantic events (delta, tool_use, tool_result, subagent_spawn,
   permission_*), policy observation compatibility labels
