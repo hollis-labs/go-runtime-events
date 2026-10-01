@@ -32,13 +32,18 @@
 //
 //   - agent.delta: content (the text), block_id (stable for every delta of
 //     one content block, different for the next block, so a consumer can
-//     separate blocks without knowing the provider), phase ("narration",
-//     "final" or "thinking"; empty when the producer did not classify it).
-//   - turn.completed and turn.failed: usage (the turn's accumulated token
-//     counts and cost_usd, a per-turn figure that consumers may sum across
-//     turns), stop_reason (normalised: end_turn, max_tokens, tool_use,
-//     turn_limit, refusal, cancelled or error; a value outside that list is
-//     the provider's own word, passed through), error (turn.failed).
+//     separate blocks without knowing the provider), phase ("thought" for
+//     thinking text on every runtime; "narration" or "final" when a native
+//     provider classifies its text; "message" for an ACP agent message;
+//     absent when nothing classified it).
+//   - turn.completed and turn.failed: usage (the turn's accumulated usage;
+//     native runtimes emit go-llm-types' Usage with its Go field names,
+//     InputTokens, OutputTokens, CacheCreationTokens, CacheReadTokens,
+//     StopReason and CostUSD, a per-turn figure consumers may sum across
+//     turns; ACP runtimes pass the agent's own usage object through),
+//     stop_reason (normalised: end_turn, max_tokens, tool_use, turn_limit,
+//     refusal, cancelled or error; a value outside that list is the
+//     provider's own word, passed through), error (turn.failed).
 //   - session.lost: requested_id, actual_id, reason.
 //   - session.auth_failed: error.
 //   - agent.permission_denied: action, display_name.

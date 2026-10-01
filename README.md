@@ -93,8 +93,8 @@ the same way. The package doc carries the same list.
 
 | Kind | Fields |
 |---|---|
-| `agent.delta` | `content`; `block_id` (stable within one content block, different for the next, so blocks can be separated without per-provider rules); `phase` (`narration`, `final`, `thinking`, or empty) |
-| `turn.completed`, `turn.failed` | `usage` (the turn's token counts and `cost_usd`); `stop_reason` (`end_turn`, `max_tokens`, `tool_use`, `turn_limit`, `refusal`, `cancelled`, `error`, or the provider's own word when it is none of those); `error` (`turn.failed`) |
+| `agent.delta` | `content`; `block_id` (stable within one content block, different for the next, so blocks can be separated without per-provider rules); `phase` (`thought` for thinking text on every runtime; `narration` / `final` when a native provider classifies its text; `message` for an ACP agent message; absent otherwise) |
+| `turn.completed`, `turn.failed` | `usage` (native runtimes: go-llm-types `Usage` with its Go field names — `InputTokens`, `OutputTokens`, `CacheCreationTokens`, `CacheReadTokens`, `StopReason`, `CostUSD`; ACP runtimes: the agent's own usage object); `stop_reason` (`end_turn`, `max_tokens`, `tool_use`, `turn_limit`, `refusal`, `cancelled`, `error`, or the provider's own word when it is none of those); `error` (`turn.failed`) |
 | `session.lost` | `requested_id`, `actual_id`, `reason` |
 | `session.auth_failed` | `error` |
 | `agent.permission_denied` | `action`, `display_name` |
