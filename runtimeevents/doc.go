@@ -22,4 +22,27 @@
 // The wrapper assigns sequence numbers and IDs; downstream consumers should
 // not regenerate them. See [Sequencer], [Emitter], and [Sink] for the
 // producer-side helpers.
+//
+// # Payload conventions
+//
+// Payloads stay opaque to this package, but producers share a few field
+// conventions so consumers can read every runtime the same way. All fields
+// are optional and additive; a consumer that does not know a field ignores
+// it.
+//
+//   - agent.delta: content (the text), block_id (stable for every delta of
+//     one content block, different for the next block, so a consumer can
+//     separate blocks without knowing the provider), phase ("narration",
+//     "final" or "thinking"; empty when the producer did not classify it).
+//   - turn.completed and turn.failed: usage (the turn's accumulated token
+//     counts and cost_usd, a per-turn figure that consumers may sum across
+//     turns), stop_reason (normalised: end_turn, max_tokens, tool_use,
+//     turn_limit, refusal, cancelled or error; a value outside that list is
+//     the provider's own word, passed through), error (turn.failed).
+//   - session.lost: requested_id, actual_id, reason.
+//   - session.auth_failed: error.
+//   - agent.permission_denied: action, display_name.
+//
+// These names are chosen so a chat-stream consumer can map them directly:
+// block_id to a message part id, stop_reason to a finish reason.
 package runtimeevents

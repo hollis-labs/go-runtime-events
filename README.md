@@ -17,7 +17,7 @@ Production-shaped schema with:
 - `Event` envelope: `schema_version`, `id`, `kind`, `time`, `app`,
   `session_id`, `turn_id`, `sequence`, `parent_id`, `raw_offset`,
   `process`, `source`, `payload`.
-- 29 `EventKind` constants covering process / session / turn / stdio /
+- 32 `EventKind` constants covering process / session / turn / stdio /
   agent / policy / plant / sandbox / interrupt lifecycle.
 - 7 `SourceChannel` constants + 3 `Confidence` levels.
 - `Sequencer` (per-session monotonic, concurrent-safe), ID generators
@@ -84,6 +84,23 @@ The action-shaped `KindPolicyNudge`, `KindPolicyRewrite`,
 observed policy findings or recommendations; receiving one does not by
 itself prove that the producer changed, blocked, or paused the underlying
 operation.
+
+## Payload conventions
+
+Payloads stay opaque to this module, but producers share these field
+conventions (all optional and additive) so consumers read every runtime
+the same way. The package doc carries the same list.
+
+| Kind | Fields |
+|---|---|
+| `agent.delta` | `content`; `block_id` (stable within one content block, different for the next, so blocks can be separated without per-provider rules); `phase` (`narration`, `final`, `thinking`, or empty) |
+| `turn.completed`, `turn.failed` | `usage` (the turn's token counts and `cost_usd`); `stop_reason` (`end_turn`, `max_tokens`, `tool_use`, `turn_limit`, `refusal`, `cancelled`, `error`, or the provider's own word when it is none of those); `error` (`turn.failed`) |
+| `session.lost` | `requested_id`, `actual_id`, `reason` |
+| `session.auth_failed` | `error` |
+| `agent.permission_denied` | `action`, `display_name` |
+
+`block_id` and `stop_reason` are named so a chat-stream consumer can map
+them straight onto a message part id and a finish reason.
 
 ## Envelope shape
 
