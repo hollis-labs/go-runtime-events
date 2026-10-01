@@ -18,6 +18,18 @@ const (
 	KindSessionIdle       EventKind = "session.idle"
 	KindSessionProcessing EventKind = "session.processing"
 	KindSessionHeartbeat  EventKind = "session.heartbeat"
+
+	// KindSessionLost reports that a resume did not continue the provider
+	// session it asked for: the provider either started a new session in
+	// its place (non-terminal, the turn runs on) or no longer has it (the
+	// turn fails). Conventional payload: requested_id, actual_id (empty when
+	// the turn failed rather than continuing elsewhere), reason.
+	KindSessionLost EventKind = "session.lost"
+
+	// KindSessionAuthFailed reports that the provider CLI is not signed in
+	// or its credentials were refused, as observed by the producer (for
+	// example a sign-in prompt on stderr). Conventional payload: error.
+	KindSessionAuthFailed EventKind = "session.auth_failed"
 )
 
 // Turn kinds. A turn is one request/response exchange within a session.
@@ -49,6 +61,13 @@ const (
 	KindAgentSubagentSpawn       EventKind = "agent.subagent_spawn"
 	KindAgentPermissionRequested EventKind = "agent.permission_requested"
 	KindAgentPermissionResolved  EventKind = "agent.permission_resolved"
+
+	// KindAgentPermissionDenied reports a tool action the agent CLI refused
+	// on its own because it needed an approval that could not be asked for
+	// (headless mode). Unlike agent.permission_resolved there was no request
+	// to answer; without this event the refusal is a silent no-op.
+	// Conventional payload: action, display_name.
+	KindAgentPermissionDenied EventKind = "agent.permission_denied"
 )
 
 // Policy observation compatibility kinds. Their action-shaped Go names and

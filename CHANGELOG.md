@@ -4,7 +4,23 @@ All notable changes to go-runtime-events are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## v0.2.0 — 2026-10-01
+
+Additive: three kinds and documented payload conventions (CW-20260930-0137).
+Envelope, `SchemaVersion` and existing wire values are unchanged.
+
+### Added
+
+- `KindSessionLost` (`session.lost`): a resume did not continue the provider
+  session it asked for.
+- `KindSessionAuthFailed` (`session.auth_failed`): the provider CLI is not
+  signed in or its credentials were refused.
+- `KindAgentPermissionDenied` (`agent.permission_denied`): the agent CLI
+  refused a tool action on its own because it could not ask for approval.
+- Payload conventions, in the package doc and README: `block_id` and `phase`
+  on `agent.delta`; `usage` (with `cost_usd`) and a normalised `stop_reason`
+  on `turn.completed` / `turn.failed`; the fields of the three new kinds.
+  Payloads stay opaque; these are conventions, not typed structs.
 
 ### Changed
 
