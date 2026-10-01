@@ -4,6 +4,21 @@ All notable changes to go-runtime-events are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.2.1 — 2026-10-01
+
+Documentation only: the payload conventions now match what producers emit
+(CW-20260930-0137).
+
+### Changed
+
+- `agent.delta` `phase`: thinking text is `thought` (the value the ACP
+  translators already emit, and that consumers key on), not `thinking`; ACP
+  agent text is `message`; native text is `narration` / `final` when the
+  provider classifies it.
+- `usage` on terminal events: native runtimes emit go-llm-types' `Usage` with
+  its Go field names (`CostUSD`, not `cost_usd`); ACP runtimes pass the
+  agent's usage object through. v0.2.0's wording implied snake_case keys.
+
 ## v0.2.0 — 2026-10-01
 
 Additive: three kinds and documented payload conventions (CW-20260930-0137).
