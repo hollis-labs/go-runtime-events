@@ -95,6 +95,10 @@ the same way. The package doc carries the same list.
 |---|---|
 | `agent.delta` | `content`; `block_id` (stable within one content block, different for the next, so blocks can be separated without per-provider rules); `phase` (`thought` for thinking text on every runtime; `narration` / `final` when a native provider classifies its text; `message` for an ACP agent message; absent otherwise) |
 | `turn.completed`, `turn.failed` | `usage` (native runtimes: go-llm-types `Usage` with its Go field names — `InputTokens`, `OutputTokens`, `CacheCreationTokens`, `CacheReadTokens`, `StopReason`, `CostUSD`; ACP runtimes: the agent's own usage object); `stop_reason` (`end_turn`, `max_tokens`, `tool_use`, `turn_limit`, `refusal`, `cancelled`, `error`, or the provider's own word when it is none of those); `error` (`turn.failed`) |
+| `turn.completed` | also `text`: the turn's final message when the runtime reports one on its terminal event (Claude's `result.result`, agy's `result.response`); absent when it reports none |
+| `turn.failed` | also `reason`: `interrupted` (the host cancelled the turn) or `process_exited` (the process went away mid-turn) when the producer knows; absent for an ordinary failure |
+| `agent.tool_use` | `tool_use` (`id`, `name`, `input`) on native runtimes; ACP runtimes carry the tool call's own fields (`tool_call_id`, `title`, `kind`, `status`, `raw_input`) |
+| `agent.permission_requested`, `agent.permission_resolved` | request: `request_id` (when the agent has one), `method`, `params`; resolution: `allowed`, `reason`, `request_id`, and `ParentID` set to the request event's ID, so the pair matches either way |
 | `session.lost` | `requested_id`, `actual_id`, `reason` |
 | `session.auth_failed` | `error` |
 | `agent.permission_denied` | `action`, `display_name` |
