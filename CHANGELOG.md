@@ -4,6 +4,25 @@ All notable changes to go-runtime-events are documented here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.2.2 — 2026-10-02
+
+Documentation only: the payload conventions a turn reducer reads
+(CW-20261002-0061, ADR 0049). Envelope, kinds, `SchemaVersion` and wire values
+are unchanged.
+
+### Added
+
+- `turn.completed` `text`: the turn's final message when the runtime reports
+  one on its terminal event. No producer emits it yet; go-agent-wrapper starts
+  once go-providers carries Claude's `result.result` and agy's `result.response`
+  on the stream's done event.
+- `turn.failed` `reason` (`interrupted`, `process_exited`), which
+  go-agent-wrapper already emits, so a consumer can tell a cut-short turn from a
+  failed one.
+- `agent.tool_use` and `agent.permission_requested` / `agent.permission_resolved`
+  field conventions, written down from what go-agent-wrapper and its ACP
+  clients emit today.
+
 ## v0.2.1 — 2026-10-01
 
 Documentation only: the payload conventions now match what producers emit

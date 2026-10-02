@@ -44,6 +44,22 @@
 //     stop_reason (normalised: end_turn, max_tokens, tool_use, turn_limit,
 //     refusal, cancelled or error; a value outside that list is the
 //     provider's own word, passed through), error (turn.failed).
+//   - turn.completed also carries text when the runtime itself reports the
+//     turn's final message on its terminal event (Claude's result.result, agy's
+//     result.response): the one string a consumer wants as "what the agent
+//     said", with nothing to reconstruct from deltas. Absent when the runtime
+//     reports none.
+//   - turn.failed also carries reason when the producer knows why the turn
+//     ended without completing: "interrupted" (the host cancelled it) or
+//     "process_exited" (the process went away mid-turn). Absent for an
+//     ordinary failure.
+//   - agent.tool_use: tool_use ({id, name, input}) on native runtimes; ACP
+//     runtimes carry the tool call's own fields (tool_call_id, title, kind,
+//     status, raw_input).
+//   - agent.permission_requested: request_id (when the agent has one), method,
+//     params. agent.permission_resolved answers it with allowed (a bool),
+//     reason and request_id, and sets ParentID to the request event's ID, so a
+//     consumer can match the pair either way.
 //   - session.lost: requested_id, actual_id, reason.
 //   - session.auth_failed: error.
 //   - agent.permission_denied: action, display_name.
