@@ -1,5 +1,21 @@
 # go-runtime-events
 
+## Moved to substrate
+
+This standalone repository is deprecated. New development lives in the
+[`github.com/hollis-labs/substrate/harness`](https://github.com/hollis-labs/substrate/tree/harness/v0.3.0/harness)
+module, released as **`harness/v0.3.0`**.
+
+```sh
+go get github.com/hollis-labs/substrate/harness@v0.3.0
+```
+
+Follow the [package and API migration guide](https://github.com/hollis-labs/substrate/blob/harness/v0.3.0/harness/docs/units/go-runtime-events/MIGRATION.md) when updating imports;
+the consolidation can include API changes. Existing standalone tags and history
+are preserved. The documentation below describes the standalone releases and
+is retained for historical reference. Applications migrate separately; this
+redirect does not deploy or update any consumer.
+
 Shared runtime-activity event schema for CLI-wrapped agent subprocesses
 and other managed processes in the Hollis Labs portfolio.
 
